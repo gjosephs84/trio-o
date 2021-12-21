@@ -1,10 +1,10 @@
-// Generate Game Board
+// Get a handle on DOM elements
  let containerDiv = document.getElementById("game-board");
  let docBody = document.getElementById("body");
- const gamePieces = [];
-// console.log(containerDiv);
+ const gamePieces = []; // An array to hold the moveable pieces
 
-
+// The following generates the game board within a grid in the DOM
+// Circles within the board itself are not moveable.
 function makeBoard() {
      for (j=2; j < 5; j++) {
         for (i=2; i < 5; i++) {
@@ -36,7 +36,7 @@ function makeBoard() {
             }
         }
 }
-makeBoard();
+
 
 function horizontalPieces(color, row) {
     for (i=2; i < 5; i++) {
@@ -104,35 +104,27 @@ function verticalPieces(color, column) {
         }
 }
 
+// Generate the game board
+makeBoard();
+
+// Generate the game pieces
 horizontalPieces("red", 1);
 horizontalPieces("green", 5);
 verticalPieces("blue", 1);
 verticalPieces("purple", 5);
-//Make the DIV element draggagle:
+
+//Make the game pieces draggagle:
 
 let totalPieces = gamePieces.length;
 for (i=0; i < totalPieces; i++) {
     let pieceID = gamePieces[i];
     dragElement(document.getElementById(pieceID));
-}
-
-//dragElement(document.getElementById("large-red-1"));
-//dragElement(document.getElementById("medium-red-1"));
-//dragElement(document.getElementById("small-red-1"));
-
-
+    }
 
 function dragElement(elmnt) {
     
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    
-    if (document.getElementById(elmnt.id + "header")) {
-    /* if present, the header is where you move the DIV from:*/
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
- }  else {
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
     elmnt.onmousedown = dragMouseDown;
-}
 
   function dragMouseDown(e) {
     e = e || window.event;
@@ -158,12 +150,6 @@ function dragElement(elmnt) {
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // set the element's new position:
-    //elmnt.style.gridColumnStart = null;
-    //elmnt.style.gridRowStart = null;
-    //elmnt.style.marginLeft = null;
-    //elmnt.style.marginTop = null;
-   
     
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
