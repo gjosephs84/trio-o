@@ -1,0 +1,53 @@
+div {
+    
+    background-color: transparent;
+    border-width: 20px;
+    border-radius: 50%;
+    border-style: solid;
+    position: absolute;
+}
+
+.container {
+    border-width: 0px;
+    border-radius: 0%;
+    display: grid;
+    grid-template-columns: repeat(5, 180px);
+    grid-template-rows: repeat(5, 180px);
+    gap: 10px;
+    background-color: rgb(250, 241, 225);
+}
+
+.large {
+    height: 120px;
+    width: 120px;
+}
+
+.medium {
+    height: 60px;
+    width: 60px;
+}
+
+.small {
+    height: 1px;
+    width: 1px;
+}
+
+.red {
+    border-color: red;
+}
+
+.tan {
+    border-color: rgb(202, 161, 100);
+}
+
+.green {
+    border-color:seagreen;
+}
+
+.blue {
+    border-color: steelblue;
+}
+
+.purple {
+    border-color: mediumpurple;
+}
