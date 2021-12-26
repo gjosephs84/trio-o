@@ -1,6 +1,9 @@
 // Get a handle on DOM elements
  let containerDiv = document.getElementById("game-board");
  let docBody = document.getElementById("body");
+ const largeBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
+ const mediumBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
+ const smallBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
  const gamePieces = []; // An array to hold the moveable pieces
 
 // The following generates the game board within a grid in the DOM
@@ -31,8 +34,11 @@ function makeBoard() {
                 small.style.marginTop = "70px";
             //Add Circles to the DOM
                 containerDiv.appendChild(large);
+                largeBoardPieces.push([large.getBoundingClientRect().x, large.getBoundingClientRect().y]);
                 containerDiv.appendChild(medium);
+                mediumBoardPieces.push([medium.getBoundingClientRect().x, medium.getBoundingClientRect().y]);
                 containerDiv.appendChild(small);
+                smallBoardPieces.push([small.getBoundingClientRect().x, small.getBoundingClientRect().y]);
             }
         }
 }
@@ -153,10 +159,74 @@ function dragElement(elmnt) {
     
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+    
+
   }
 
   function closeDragElement() {
     /* stop moving when mouse button is released:*/
+    let circleSize = elmnt.className[0]; //Figure out size of circle moved
+    console.log(circleSize);
+    let circleX = elmnt.style.left.slice(0, -2); //Get its X coordinate
+    let circleY = elmnt.style.top.slice(0, -2); //Get its Y coordinate
+    console.log(circleX);
+    console.log(circleY);
+    // Compare circle coordinates with gameboard circles and snap in place
+
+    if (circleSize == "l") {
+        for (i = 0; i < 9; i++) {
+           let lowerXRange = largeBoardPieces[i][0] - 50;
+           let upperXRange = largeBoardPieces[i][0] + 50;
+           if (circleX > lowerXRange && circleX < upperXRange) {
+               console.log("Triggered large");
+               for (j = 0; j < 9; j++) {
+                   let lowerYRange = largeBoardPieces[j][1] - 50;
+                   let upperYRange = largeBoardPieces[j][1] + 50;
+                   if (circleY > lowerYRange && circleY < upperYRange) {
+                       elmnt.style.left = largeBoardPieces[i][0] + "px";
+                       elmnt.style.top = largeBoardPieces[j][1] + "px";
+                   }
+               }
+           } 
+        }
+    }
+    
+    if (circleSize == "m") {
+        for (i = 0; i < 9; i++) {
+           let lowerXRange = mediumBoardPieces[i][0] - 50;
+           let upperXRange = mediumBoardPieces[i][0] + 50;
+           if (circleX > lowerXRange && circleX < upperXRange) {
+               console.log("Triggered Medium");
+               for (j = 0; j < 9; j++) {
+                   let lowerYRange = mediumBoardPieces[j][1] - 50;
+                   let upperYRange = mediumBoardPieces[j][1] + 50;
+                   if (circleY > lowerYRange && circleY < upperYRange) {
+                       elmnt.style.left = mediumBoardPieces[i][0] + "px";
+                       elmnt.style.top = mediumBoardPieces[j][1] + "px";
+                   }
+               }
+           } 
+        }
+    }
+
+    if (circleSize == "s") {
+        for (i = 0; i < 9; i++) {
+           let lowerXRange = smallBoardPieces[i][0] - 50;
+           let upperXRange = smallBoardPieces[i][0] + 50;
+           if (circleX > lowerXRange && circleX < upperXRange) {
+               console.log("Triggered Small");
+               for (j = 0; j < 9; j++) {
+                   let lowerYRange = smallBoardPieces[j][1] - 50;
+                   let upperYRange = smallBoardPieces[j][1] + 50;
+                   if (circleY > lowerYRange && circleY < upperYRange) {
+                       elmnt.style.left = smallBoardPieces[i][0] + "px";
+                       elmnt.style.top = smallBoardPieces[j][1] + "px";
+                   }
+               }
+           } 
+        }
+    }
     document.onmouseup = null;
     document.onmousemove = null;
   }
