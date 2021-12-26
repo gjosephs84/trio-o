@@ -185,13 +185,22 @@ function dragElement(elmnt) {
     }
 
     for (i = 0; i < 9; i++) {
+        // Set a range within which to snap pieces along X coordinates
         let lowerXRange = boardPieces[i][0] - 50;
         let upperXRange = boardPieces[i][0] + 50;
+
+        // Check to see if X coordinates are within snapping range
         if (circleX > lowerXRange && circleX < upperXRange) {
             for (j = 0; j < 9; j++) {
+
+                // Set a range within to snap pieces along Y coordinates
                 let lowerYRange = boardPieces[j][1] - 50;
                 let upperYRange = boardPieces[j][1] + 50;
+
+                // Check to see if Y coordinates are within snapping range
                 if (circleY > lowerYRange && circleY < upperYRange) {
+
+                    // If yes, snap X and Y coordinates to game board
                     elmnt.style.left = boardPieces[i][0] + "px";
                     elmnt.style.top = boardPieces[j][1] + "px";
                 }
