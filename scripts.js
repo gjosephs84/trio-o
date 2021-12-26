@@ -167,13 +167,40 @@ function dragElement(elmnt) {
   function closeDragElement() {
     /* stop moving when mouse button is released:*/
     let circleSize = elmnt.className[0]; //Figure out size of circle moved
-    console.log(circleSize);
     let circleX = elmnt.style.left.slice(0, -2); //Get its X coordinate
     let circleY = elmnt.style.top.slice(0, -2); //Get its Y coordinate
-    console.log(circleX);
-    console.log(circleY);
+    
     // Compare circle coordinates with gameboard circles and snap in place
+    
+    let boardPieces
+    
+    if (circleSize == "l") {
+        boardPieces = largeBoardPieces;
+    }
+    if (circleSize == "m") {
+        boardPieces = mediumBoardPieces;
+    }
+    if (circleSize == "s") {
+        boardPieces = smallBoardPieces;
+    }
 
+    for (i = 0; i < 9; i++) {
+        let lowerXRange = boardPieces[i][0] - 50;
+        let upperXRange = boardPieces[i][0] + 50;
+        if (circleX > lowerXRange && circleX < upperXRange) {
+            for (j = 0; j < 9; j++) {
+                let lowerYRange = boardPieces[j][1] - 50;
+                let upperYRange = boardPieces[j][1] + 50;
+                if (circleY > lowerYRange && circleY < upperYRange) {
+                    elmnt.style.left = boardPieces[i][0] + "px";
+                    elmnt.style.top = boardPieces[j][1] + "px";
+                }
+            }
+        } 
+    }
+    
+    
+    /*
     if (circleSize == "l") {
         for (i = 0; i < 9; i++) {
            let lowerXRange = largeBoardPieces[i][0] - 50;
@@ -227,6 +254,7 @@ function dragElement(elmnt) {
            } 
         }
     }
+    */
     document.onmouseup = null;
     document.onmousemove = null;
   }
