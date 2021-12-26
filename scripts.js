@@ -199,62 +199,6 @@ function dragElement(elmnt) {
         } 
     }
     
-    
-    /*
-    if (circleSize == "l") {
-        for (i = 0; i < 9; i++) {
-           let lowerXRange = largeBoardPieces[i][0] - 50;
-           let upperXRange = largeBoardPieces[i][0] + 50;
-           if (circleX > lowerXRange && circleX < upperXRange) {
-               console.log("Triggered large");
-               for (j = 0; j < 9; j++) {
-                   let lowerYRange = largeBoardPieces[j][1] - 50;
-                   let upperYRange = largeBoardPieces[j][1] + 50;
-                   if (circleY > lowerYRange && circleY < upperYRange) {
-                       elmnt.style.left = largeBoardPieces[i][0] + "px";
-                       elmnt.style.top = largeBoardPieces[j][1] + "px";
-                   }
-               }
-           } 
-        }
-    }
-    
-    if (circleSize == "m") {
-        for (i = 0; i < 9; i++) {
-           let lowerXRange = mediumBoardPieces[i][0] - 50;
-           let upperXRange = mediumBoardPieces[i][0] + 50;
-           if (circleX > lowerXRange && circleX < upperXRange) {
-               console.log("Triggered Medium");
-               for (j = 0; j < 9; j++) {
-                   let lowerYRange = mediumBoardPieces[j][1] - 50;
-                   let upperYRange = mediumBoardPieces[j][1] + 50;
-                   if (circleY > lowerYRange && circleY < upperYRange) {
-                       elmnt.style.left = mediumBoardPieces[i][0] + "px";
-                       elmnt.style.top = mediumBoardPieces[j][1] + "px";
-                   }
-               }
-           } 
-        }
-    }
-
-    if (circleSize == "s") {
-        for (i = 0; i < 9; i++) {
-           let lowerXRange = smallBoardPieces[i][0] - 50;
-           let upperXRange = smallBoardPieces[i][0] + 50;
-           if (circleX > lowerXRange && circleX < upperXRange) {
-               console.log("Triggered Small");
-               for (j = 0; j < 9; j++) {
-                   let lowerYRange = smallBoardPieces[j][1] - 50;
-                   let upperYRange = smallBoardPieces[j][1] + 50;
-                   if (circleY > lowerYRange && circleY < upperYRange) {
-                       elmnt.style.left = smallBoardPieces[i][0] + "px";
-                       elmnt.style.top = smallBoardPieces[j][1] + "px";
-                   }
-               }
-           } 
-        }
-    }
-    */
     document.onmouseup = null;
     document.onmousemove = null;
   }
