@@ -5,8 +5,29 @@
  const mediumBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
  const smallBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
  const gamePieces = []; // An array to hold the moveable pieces
+ const placedPieces = []; // Am array to hold a record of placed pieces
 
-// The following generates the game board within a grid in the DOM
+/* 
+The following function creates objects for the tan piecs to keep track of their
+x and y coordinates, as well as their grid locations. It is used within the makeBoard()
+function to push these objects into the large, medium, and small board pieces arrays.
+*/
+
+ function boardObject(boardCircle, row, column) {
+    let xCoord = boardCircle.getBoundingClientRect().x;
+    let yCoord = boardCircle.getBoundingClientRect().y;
+    let boardPiece = {
+        x: xCoord,
+        y: yCoord,
+        row: row,
+        column: column
+    };
+    return boardPiece;
+}
+
+
+
+ // The following generates the game board within a grid in the DOM
 // Circles within the board itself are not moveable.
 function makeBoard() {
      for (j=2; j < 5; j++) {
@@ -14,6 +35,7 @@ function makeBoard() {
             //Create the Large Circles
             let large = document.createElement('div')
                 large.className = "large tan"
+                large.id = "large " + j + " " + i;
                 large.style.gridColumnStart = i;
                 large.style.gridRowStart = j;
                 large.style.marginLeft = "10px";
@@ -21,6 +43,7 @@ function makeBoard() {
             //Create the Medium Circles
             let medium = document.createElement('div')
                 medium.className = "medium tan"
+                medium.id = "medium " + j + " " + i;
                 medium.style.gridColumnStart = i;
                 medium.style.gridRowStart = j;
                 medium.style.marginLeft = "40px";
@@ -28,17 +51,39 @@ function makeBoard() {
             //Create the Small Circles
             let small = document.createElement('div')
                 small.className = "small tan"
+                small.id = "small " + j + " " + i;
                 small.style.gridColumnStart = i;
                 small.style.gridRowStart = j;
                 small.style.marginLeft = "70px";
                 small.style.marginTop = "70px";
             //Add Circles to the DOM
                 containerDiv.appendChild(large);
-                largeBoardPieces.push([large.getBoundingClientRect().x, large.getBoundingClientRect().y]);
+                largeBoardPieces.push(boardObject(large, j, i));
+                let piece = {
+                    color: "",
+                    size: "l",
+                    row: j,
+                    column: i
+                };
+                placedPieces.push(piece);
                 containerDiv.appendChild(medium);
-                mediumBoardPieces.push([medium.getBoundingClientRect().x, medium.getBoundingClientRect().y]);
+                mediumBoardPieces.push(boardObject(medium, j, i));
+                piece = {
+                    color: "",
+                    size: "m",
+                    row: j,
+                    column: i,
+                }
+                placedPieces.push(piece);
                 containerDiv.appendChild(small);
-                smallBoardPieces.push([small.getBoundingClientRect().x, small.getBoundingClientRect().y]);
+                smallBoardPieces.push(boardObject(small, j, i));
+                piece = {
+                    color: "",
+                    size: "s",
+                    row: j,
+                    column: i,
+                }
+                placedPieces.push(piece);
             }
         }
 }
@@ -189,23 +234,23 @@ function dragElement(elmnt) {
 
     for (i = 0; i < 9; i++) {
         // Set a range within which to snap pieces along X coordinates
-        let lowerXRange = boardPieces[i][0] - 50;
-        let upperXRange = boardPieces[i][0] + 50;
+        let lowerXRange = boardPieces[i].x - 50;
+        let upperXRange = boardPieces[i].x + 50;
 
         // Check to see if X coordinates are within snapping range
         if (circleX > lowerXRange && circleX < upperXRange) {
             for (j = 0; j < 9; j++) {
 
                 // Set a range within to snap pieces along Y coordinates
-                let lowerYRange = boardPieces[j][1] - 50;
-                let upperYRange = boardPieces[j][1] + 50;
+                let lowerYRange = boardPieces[j].y - 50;
+                let upperYRange = boardPieces[j].y + 50;
 
                 // Check to see if Y coordinates are within snapping range
                 if (circleY > lowerYRange && circleY < upperYRange) {
 
                     // If yes, snap X and Y coordinates to game board
-                    elmnt.style.left = boardPieces[i][0] + "px";
-                    elmnt.style.top = boardPieces[j][1] + "px";
+                    elmnt.style.left = boardPieces[i].x + "px";
+                    elmnt.style.top = boardPieces[j].y + "px";
                 }
             }
         } 
