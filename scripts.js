@@ -27,7 +27,7 @@ function to push these objects into the large, medium, and small board pieces ar
 
 
 
- // The following generates the game board within a grid in the DOM
+// The following generates the game board within a grid in the DOM
 // Circles within the board itself are not moveable.
 function makeBoard() {
      for (j=2; j < 5; j++) {
@@ -164,6 +164,23 @@ horizontalPieces("green", 5);
 verticalPieces("blue", 1);
 verticalPieces("purple", 5);
 
+// A function to mark the piece locations
+
+function markPieceLocation(piece, theRow, theColumn, size) {
+    let classArray = piece.className.split(" ");
+    console.log(classArray[1]);
+    let color = classArray[1];
+    for (a = 0; a < placedPieces.length; a++) {
+        if (placedPieces[a].row == theRow && placedPieces[a].column == theColumn) {
+            if (size == placedPieces[a].size) {
+                placedPieces[a].color = color;
+                console.log(placedPieces[a]);
+            }
+        }
+        }
+    }
+
+
 //Make the game pieces draggagle:
 
 let totalPieces = gamePieces.length;
@@ -242,18 +259,24 @@ function dragElement(elmnt) {
             for (j = 0; j < 9; j++) {
 
                 // Set a range within to snap pieces along Y coordinates
-                let lowerYRange = boardPieces[j].y - 50;
-                let upperYRange = boardPieces[j].y + 50;
+                let lowerYRange = boardPieces[j].y - 40;
+                let upperYRange = boardPieces[j].y + 40;
 
                 // Check to see if Y coordinates are within snapping range
                 if (circleY > lowerYRange && circleY < upperYRange) {
 
                     // If yes, snap X and Y coordinates to game board
+                    let k = boardPieces[j].row;
+                    let l = boardPieces[i].column;
                     elmnt.style.left = boardPieces[i].x + "px";
                     elmnt.style.top = boardPieces[j].y + "px";
+                    console.log("Row: " + k);
+                    console.log("Column: " + l);
+                    markPieceLocation(elmnt, k, l, circleSize);
                 }
             }
         } 
+        
     }
     
     document.onmouseup = null;
@@ -262,3 +285,4 @@ function dragElement(elmnt) {
     document.ontouchmove = null;
   }
 }
+
