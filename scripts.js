@@ -4,7 +4,9 @@
  const largeBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
  const mediumBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
  const smallBoardPieces = []; // Array to hold BoundingClientRecs of board pieces
- const gamePieces = []; // An array to hold the moveable pieces
+ const boardPieceDivs = []; // Array to hold the board piece Divs
+ const gamePieces = []; // An array to hold the IDs of the moveable pieces
+ const gamePieceDivs = [] // An array to hold the moveable game piece Divs
  const placedPieces = []; // Am array to hold a record of placed pieces
 
 /* 
@@ -63,7 +65,8 @@ function makeBoard() {
                     color: "",
                     size: "l",
                     row: j,
-                    column: i
+                    column: i,
+                    id: ""
                 };
                 placedPieces.push(piece);
                 containerDiv.appendChild(medium);
@@ -73,6 +76,7 @@ function makeBoard() {
                     size: "m",
                     row: j,
                     column: i,
+                    id: ""
                 }
                 placedPieces.push(piece);
                 containerDiv.appendChild(small);
@@ -82,8 +86,13 @@ function makeBoard() {
                     size: "s",
                     row: j,
                     column: i,
+                    id: ""
                 }
                 placedPieces.push(piece);
+            //Add Circles to the boardPieceDiv Array
+                boardPieceDivs.push(large);
+                boardPieceDivs.push(medium);
+                boardPieceDivs.push(small);
             }
         }
 }
@@ -98,6 +107,7 @@ function horizontalPieces(color, row) {
             large.style.top = ((row - 1) * 190) + 20 + "px";
             large.style.left = ((190 * i) - 170) + "px";
             gamePieces.push(large.id);
+            gamePieceDivs.push(large);
           
         //Create the Medium Circles
         let medium = document.createElement('div')
@@ -106,6 +116,7 @@ function horizontalPieces(color, row) {
             medium.style.top = ((row - 1) * 190) + 50 + "px";
             medium.style.left = ((190 * i) - 140) + "px";
             gamePieces.push(medium.id);
+            gamePieceDivs.push(medium);
            
         //Create the Small Circles
         let small = document.createElement('div')
@@ -114,6 +125,7 @@ function horizontalPieces(color, row) {
             small.style.top = ((row - 1) * 190) + 80 + "px";
             small.style.left = ((190 * i) - 110) + "px";
             gamePieces.push(small.id);
+            gamePieceDivs.push(small);
           
         //Add Circles to the DOM
             docBody.appendChild(large);
@@ -131,6 +143,7 @@ function verticalPieces(color, column) {
             large.style.top = (((i - 1)* 190) + 20) + "px";
             large.style.left = (((column - 1) * 190) + 20) + "px";
             gamePieces.push(large.id);
+            gamePieceDivs.push(large);
           
         //Create the Medium Circles
         let medium = document.createElement('div')
@@ -139,7 +152,8 @@ function verticalPieces(color, column) {
             medium.style.top = ((i - 1) * 190) + 50 + "px";
             medium.style.left = (((column - 1) * 190) + 50) + "px";
             gamePieces.push(medium.id);
-           
+            gamePieceDivs.push(medium);
+
         //Create the Small Circles
         let small = document.createElement('div')
             small.className = "small " + color;
@@ -147,6 +161,7 @@ function verticalPieces(color, column) {
             small.style.top = ((i - 1) * 190) + 80 + "px";
             small.style.left = (((column - 1) * 190) + 80) + "px";
             gamePieces.push(small.id);
+            gamePieceDivs.push(small);
           
         //Add Circles to the DOM
             docBody.appendChild(large);
@@ -167,18 +182,20 @@ verticalPieces("purple", 5);
 // A function to mark the piece locations
 
 function markPieceLocation(piece, theRow, theColumn, size) {
+    let divId = piece.id;
     let classArray = piece.className.split(" ");
-    console.log(classArray[1]);
     let color = classArray[1];
     for (a = 0; a < placedPieces.length; a++) {
         if (placedPieces[a].row == theRow && placedPieces[a].column == theColumn) {
             if (size == placedPieces[a].size) {
                 placedPieces[a].color = color;
-                console.log(placedPieces[a]);
+                placedPieces[a].id = divId;
             }
         }
         }
     }
+
+
 
 
 //Make the game pieces draggagle:
@@ -270,14 +287,17 @@ function dragElement(elmnt) {
                     let l = boardPieces[i].column;
                     elmnt.style.left = boardPieces[i].x + "px";
                     elmnt.style.top = boardPieces[j].y + "px";
-                    console.log("Row: " + k);
-                    console.log("Column: " + l);
                     markPieceLocation(elmnt, k, l, circleSize);
                 }
             }
         } 
         
     }
+
+    const isThereAWinner = checkWinner();
+    if (isThereAWinner != false) {
+        greyOut(isThereAWinner);
+    };
     
     document.onmouseup = null;
     document.onmousemove = null;
@@ -285,4 +305,195 @@ function dragElement(elmnt) {
     document.ontouchmove = null;
   }
 }
+// A function to check the third piece in a winning line
 
+function checkThird(first, firstSize, second, secondSize, direction) {
+    for (k = 0; k < placedPieces.length; k++) {
+        if ((placedPieces[k] != first) && (placedPieces[k] != second)) {
+            // Check to see if colors are the same
+            if (placedPieces[k].color == first.color) {
+                let theSize;
+                switch (placedPieces[k].size) {
+                    case 'l' : theSize = 3;
+                    break;
+                    case 'm' : theSize = 2;
+                    break;
+                    case 's' : theSize = 1;
+                    break;
+                    default : theSize = 0;
+                }
+                const pieceThreeSize = theSize;
+                // Check to see if piece three is the same size or smaller than
+                // the other two pieces
+                if (((firstSize > secondSize) && (secondSize > pieceThreeSize)) 
+                || 
+                ((firstSize == secondSize) && (secondSize == pieceThreeSize))) {
+                    // Check to see if third piece is adjacent
+                    if (direction == 'horizontal') {
+                        if (placedPieces[k].row == second.row) {
+                            const pieceThree = placedPieces[k];
+                            const winningPieces = [first, second, pieceThree];
+                            return winningPieces;
+                        }
+                    }
+                    if (direction == 'vertical') {
+                        if (placedPieces[k].column == second.column) {
+                            const pieceThree = placedPieces[k];
+                            const winningPieces = [first, second, pieceThree];
+                            return winningPieces;
+                        }
+                    }
+                    if (direction == 'diagonal') {
+                        if (((placedPieces[k].row == (second.row - 1)) && (second.row == (first.row - 1))) ||
+                        ((placedPieces[k].row == (second.row + 1)) && (second.row == (first.row + 1)))
+                        ) {
+                            if (((placedPieces[k].column == (second.column - 1)) && (second.column == (first.column - 1))) ||
+                            ((placedPieces[k].column == (second.column + 1)) && (second.column == (first.column + 1)))
+                            ) {
+                                const pieceThree = placedPieces[k];
+                                const winningPieces = [first, second, pieceThree];
+                                return winningPieces;
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+// A function to check to see if there is a winner
+
+function checkWinner() {
+    // Check for nested
+    for (n = 0; n < placedPieces.length; n = n+3) {
+        if (placedPieces[n].color != '') {
+            if ((placedPieces[n + 1]).color != '') {
+                if ((placedPieces[n + 2].color) != '') {
+                    if ((placedPieces[n].color == (placedPieces[n +1]).color) && ((placedPieces[n].color == (placedPieces[n + 2]).color))) {
+                        const pieceOne = placedPieces[n];
+                        const pieceTwo = placedPieces[n + 1];
+                        const pieceThree = placedPieces[n + 2];
+                        const winningPieces = [pieceOne, pieceTwo, pieceThree];
+                        return winningPieces;
+                    }
+                }
+            }
+        }
+    };
+    // Check for linear win
+    for (i = 0; i < placedPieces.length; i++) {
+        if (placedPieces[i].color != '') { // initiate the first piece
+            const pieceOne = placedPieces[i];
+            let theSize;
+            let firstSize = placedPieces[i].size;
+            switch (firstSize) {
+                case 'l' : theSize = 3;
+                break;
+                case 'm' : theSize = 2;
+                break;
+                case 's' : theSize = 1;
+                break;
+                default : theSize = 0;
+            }
+            const pieceOneSize = theSize;
+            // Find a second piece
+            for (j = 0; j < placedPieces.length; j++) {
+                // Check to see if colors are the same
+                if ((placedPieces[j] != pieceOne) && placedPieces[j].color == pieceOne.color) {
+                    let theSize;
+                    switch (placedPieces[j].size) {
+                        case 'l' : theSize = 3;
+                        break;
+                        case 'm' : theSize = 2;
+                        break;
+                        case 's' : theSize = 1;
+                        break;
+                        default : theSize = 0;
+                    };
+                    const pieceTwoSize = theSize;
+                    /* Check to see if placedPieces[j] is the same size or smaller */
+                    if (pieceOneSize >= pieceTwoSize) {
+                        // Check to see if placedPieces[j] is adjacent
+                        if (
+                            ((pieceOne.row == placedPieces[j].row) && (pieceOne.column == (placedPieces[j].column - 1))) 
+                            ||
+                            ((pieceOne.row == placedPieces[j].row) && (pieceOne.column == (placedPieces[j].column + 1))) 
+                        ) {
+                            const pieceTwo = placedPieces[j];
+                            const winningLine = 'horizontal';
+                            const winner = checkThird(pieceOne, pieceOneSize, pieceTwo, pieceTwoSize, winningLine);
+                            if (winner != false) {
+                                return winner;
+                            };
+                        };
+                        if (
+                            ((pieceOne.row == (placedPieces[j].row - 1)) && (pieceOne.column == placedPieces[j].column)) ||
+                            ((pieceOne.row == (placedPieces[j].row + 1)) && (pieceOne.column == placedPieces[j].column))
+                        ) {
+                            const pieceTwo = placedPieces[j];
+                            const winningLine = 'vertical';
+                            const winner = checkThird(pieceOne, pieceOneSize, pieceTwo, pieceTwoSize, winningLine);
+                            if (winner != false) {
+                                return winner;
+                                };
+                             }
+                        if (
+                            ((pieceOne.row == (placedPieces[j].row - 1)) && (pieceOne.column == (placedPieces[j].column - 1))) ||
+                            ((pieceOne.row == (placedPieces[j].row + 1)) && (pieceOne.column == (placedPieces[j].column + 1)))
+                        ) {
+                            const pieceTwo = placedPieces[j];
+                            const winningLine = 'diagonal';
+                            const winner = checkThird(pieceOne, pieceOneSize, pieceTwo, pieceTwoSize, winningLine);
+                            if (winner != false) {
+                                return winner;
+                                };
+                            };
+                        if (
+                            ((pieceOne.row == (placedPieces[j].row + 1)) && (pieceOne.column == (placedPieces[j].column - 1))) ||
+                            ((pieceOne.row == (placedPieces[j].row - 1)) && (pieceOne.column == (placedPieces[j].column + 1)))
+                        ) {
+                            const pieceTwo = placedPieces[j];
+                            const winningLine = 'diagonal';
+                            const winner = checkThird(pieceOne, pieceOneSize, pieceTwo, pieceTwoSize, winningLine);
+                            if (winner != false) {
+                                return winner;
+                                };
+                            };
+                    };
+                    
+                    
+                };
+                
+            };
+        };
+    };
+    return false;
+};
+
+// A function to grey out all game pieces except winning ones
+
+function greyOut(winningPieces) {
+    let greyBoard = document.getElementById("game-board");
+    greyBoard.style.backgroundColor = "gainsboro";
+    const firstID = winningPieces[0].id;
+    const secondID = winningPieces[1].id;
+    const thirdID = winningPieces[2].id;
+    gamePieceDivs.forEach((item) => {
+        if (item.id != firstID) {
+            if (item.id != secondID) {
+                if (item.id != thirdID) {
+                    item.style.borderColor = "grey";
+                }
+            }
+        }
+    }
+    )
+    boardPieceDivs.forEach((item) => {
+        item.style.borderColor = "darkgrey";
+
+    }
+    )
+
+}
