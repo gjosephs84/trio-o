@@ -34,8 +34,6 @@ The same rules as above, except each player only controls one color. In the even
 
 I would like to implement functionality that would only allow the color whose turn is currently active to move their pieces.
 
-I would also like to implement code that would check for a winner after each turn.
-
 I'd like to make the size of the board dynamic based on a user's screen size. I'd also like make the dragging functionality work on touch screens so the game could be played on a phone or iPad.
 
 Ultimately, I would like to implement code that would allow two or more players to access a game from separate remote locations.
