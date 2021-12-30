@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    
+    <div id="container" style="margin: auto; background-color: azure; ">
+        
+        <iframe id="game-frame" width="955" height="955" src="index.html" style="transform:scale(1.0)"></iframe>
+        
+    </div>
+    
+    <script>
+        let divHeight = window.innerHeight * .75;
+        let divWidth = window.innerWidth * .75;
+        let container = document.getElementById("container");
+        let gameContainer = document.getElementById("game-frame")
+        let widthRatio = divWidth / 955;
+        let heightRatio = divHeight / 955;
+        console.log(widthRatio);
+        console.log(heightRatio);
+        let containerHeight = container.getBoundingClientRect().height;
+        let containerWidth = container.getBoundingClientRect().width;
+        if (window.innerWidth < window.innerHeight) {
+            container.style="margin: auto; background-color: azure; width:" + containerWidth + "px; height:" + containerWidth +"px; transform:scale(" + widthRatio + ")";
+        }
+        else if (window.innerWidth > window.innerHeight) {
+            container.style="margin: auto; background-color: azure; width:" + containerHeight +"px; height:" + containerHeight +"px; transform:scale(" + heightRatio + ")";
+        }
+        console.log(containerHeight);
+        console.log(containerWidth);
+    </script>
+</html>
