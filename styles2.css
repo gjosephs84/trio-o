@@ -1,0 +1,61 @@
+div {
+    margin: auto;
+}
+
+h1 {
+    color: #BD4F6C;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 40pt;
+    margin: auto;
+}
+
+p {
+    line-height: 1.5em;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 16pt;
+}
+
+a {
+    color: #BD4F6C;
+    text-decoration: none;
+    font-weight: bolder;
+    
+}
+
+a:hover {
+    color: #66999B;
+}
+
+a:visited {
+    color: #D7816A;
+}
+
+a:visited:hover {
+    color: #66999B;
+}
+
+.the-nav-bar {
+    grid-column-end: span;
+    justify-self: revert;
+}
+
+.the-nav-bar a {
+    font-weight: normal;
+}
+.btn-primary {
+    background-color: #BD4F6C;
+    border-color: #BD4F6C;
+}
+.btn-primary:hover {
+    background-color: #FBD87F;
+    border-color: #FBD87F;
+}
+.btn-primary:visited {
+    color: white;
+}
+
+.card {
+    background-color: whitesmoke;
+    margin-bottom: 20px;
+}
