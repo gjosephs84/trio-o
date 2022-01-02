@@ -48,13 +48,43 @@
         <div style="max-width: fit-content;"> 
             <h1>Trio-O, a Digital Take on "Otrio"</h1>
         </div>
-        <div id="container" style="margin: auto; background-color: azure; ">
+        <div style="max-width: fit-content; margin-top: 20px;">
+          <a href="#instructions" class="btn btn-primary">How to Play</a>
+          <button class="btn btn-primary" onclick="reloadGame()">Reset Game Board</button>
+        </div>
+        <div id="container" style="margin: auto;">
             
             <iframe id="game-frame" width="955" height="955" src="game.html" style="transform:scale(1.0)"></iframe>
             
         </div>
+        <div style="max-width: fit-content;">
+          <h1 id="instructions" style="margin-left: 20px;">How to Play:</h1>
+          <p>Trio-O can be played with 2-4 players.</p>
+          <h3 style="margin-left: 20px;">Two Players:</h3>
+          <p>Each player controls the game pieces opposite each other on the board. One player will be red and green. The other blue and purple. Beginning with red, the first player moves any sized game piece onto any available space on the game board.</p>
+            
+          <p>Play moves in a clockwise direction, with purple going next.</p>
+            
+          <p>Continue around until one player's same-colored game pieces achieves the following:</p>
+            
+            <ul>
+              <li>3 in a row, horizontal, vertical, or diagonal. Three in a row can either be three of the same color/size, or three of the same color in ascending or descending size.</li>
+            
+            <li>3 of the same color nested (example: small red inside medium red inside large red)</li>
+          </ul>
         
-        <script>
+          <h3 style="margin-left: 20px;">Three or More Players:</h3>
+
+            <p>The same rules as above, except each player only controls one color. In the event of three players, omit a fourth color of user's choosing from play.</p>
+        </div>
+        
+        <script> 
+            /* 
+            The following scales and resizes the iFrame containing the game,
+            then adjusts the margin programmatically to keep the gameboard centered
+            and near the top of the page
+            */ 
+
             let divHeight = window.innerHeight * .75;
             let divWidth = window.innerWidth * .75;
             let container = document.getElementById("container");
@@ -66,18 +96,26 @@
             let containerHeight = container.getBoundingClientRect().height;
             let containerWidth = container.getBoundingClientRect().width;
             if (window.innerWidth < window.innerHeight) {
-                let firstStyle="margin: auto; background-color: azure; width:" + containerWidth + "px; height:" + containerWidth +"px; transform:scale(" + widthRatio + ");";
+                let firstStyle="margin: auto; width:" + containerWidth + "px; height:" + containerWidth +"px; transform:scale(" + widthRatio + ");";
                 container.style = firstStyle;
-                let newHeight = 150 - container.getBoundingClientRect().y;
+                let newHeight = 200 - container.getBoundingClientRect().y;
                 let secondStyle = firstStyle + (" margin-top: " + newHeight + "px;");
                 container.style = secondStyle;
             }
             else if (window.innerWidth > window.innerHeight) {
-                let firstStyle="margin: auto; background-color: azure; width:" + containerHeight +"px; height:" + containerHeight +"px; transform:scale(" + heightRatio + ");";
+                let firstStyle="margin: auto; width:" + containerHeight +"px; height:" + containerHeight +"px; transform:scale(" + heightRatio + ");";
                 container.style = firstStyle;
-                let newHeight = 150 - container.getBoundingClientRect().y;
+                let newHeight = 200 - container.getBoundingClientRect().y;
                 let secondStyle = firstStyle + (" margin-top: " + newHeight + "px;");
                 container.style = secondStyle;
+            };
+
+            // A function to relaod the iFrame
+
+            function reloadGame() {
+              console.log("triggered reload");
+              let gameWindow = document.getElementById("game-frame");
+              gameWindow.src="game.html";
             };
            
 

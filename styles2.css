@@ -10,10 +10,28 @@ h1 {
     margin: auto;
 }
 
+h3 {
+    color: #BD4F6C;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-weight: bolder;
+    font-size: 25pt;
+    margin: auto;
+}
+
 p {
     line-height: 1.5em;
     font-family: 'Alegreya Sans', sans-serif;
     font-size: 16pt;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+ul {
+    line-height: 1.5em;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 16pt;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 a {
@@ -53,9 +71,4 @@ a:visited:hover {
 }
 .btn-primary:visited {
     color: white;
-}
-
-.card {
-    background-color: whitesmoke;
-    margin-bottom: 20px;
 }
