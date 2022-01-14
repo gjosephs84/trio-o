@@ -16,11 +16,9 @@ function to push these objects into the large, medium, and small board pieces ar
 */
 
  function boardObject(boardCircle, row, column) {
-    let xCoord = boardCircle.getBoundingClientRect().x;
-    let yCoord = boardCircle.getBoundingClientRect().y;
     let boardPiece = {
-        x: xCoord,
-        y: yCoord,
+        x: boardCircle.getBoundingClientRect().x,
+        y: boardCircle.getBoundingClientRect().y,
         row: row,
         column: column
     };
