@@ -37,7 +37,7 @@ function makeBoard() {
             //Create the Large Circles
             let large = document.createElement('div')
                 large.className = "large tan"
-                large.id = "large " + j + " " + i;
+                large.id = `large ${j} ${i}`;
                 large.style.gridColumnStart = i;
                 large.style.gridRowStart = j;
                 large.style.marginLeft = "10px";
@@ -45,7 +45,7 @@ function makeBoard() {
             //Create the Medium Circles
             let medium = document.createElement('div')
                 medium.className = "medium tan"
-                medium.id = "medium " + j + " " + i;
+                medium.id = `medium " ${j} ${i}`;
                 medium.style.gridColumnStart = i;
                 medium.style.gridRowStart = j;
                 medium.style.marginLeft = "40px";
@@ -53,7 +53,7 @@ function makeBoard() {
             //Create the Small Circles
             let small = document.createElement('div')
                 small.className = "small tan"
-                small.id = "small " + j + " " + i;
+                small.id = `small ${j} + ${i}`;
                 small.style.gridColumnStart = i;
                 small.style.gridRowStart = j;
                 small.style.marginLeft = "70px";
@@ -100,73 +100,43 @@ function makeBoard() {
 
 function horizontalPieces(color, row) {
     for (i=2; i < 5; i++) {
-        //Create the Large Circles
-        let large = document.createElement('div')
-            large.className = "large " + color;
-            large.id = "large-" + color + "-" + (i-1);
-            large.style.top = ((row - 1) * 190) + 20 + "px";
-            large.style.left = ((190 * i) - 170) + "px";
-            gamePieces.push(large.id);
-            gamePieceDivs.push(large);
-          
-        //Create the Medium Circles
-        let medium = document.createElement('div')
-            medium.className = "medium " + color;
-            medium.id = "medium-" + color + "-" + (i-1);
-            medium.style.top = ((row - 1) * 190) + 50 + "px";
-            medium.style.left = ((190 * i) - 140) + "px";
-            gamePieces.push(medium.id);
-            gamePieceDivs.push(medium);
-           
-        //Create the Small Circles
-        let small = document.createElement('div')
-            small.className = "small " + color;
-            small.id = "small-" + color + "-" + (i-1);
-            small.style.top = ((row - 1) * 190) + 80 + "px";
-            small.style.left = ((190 * i) - 110) + "px";
-            gamePieces.push(small.id);
-            gamePieceDivs.push(small);
-          
-        //Add Circles to the DOM
-            docBody.appendChild(large);
-            docBody.appendChild(medium);
-            docBody.appendChild(small);
+        // A function to create the horizontal circles
+        const createHorizontal = (size, i, color, row, topMarginOffset, leftMarginOffset) => {
+            let newPiece = document.createElement('div');
+            newPiece.className = `${size} ${color}`;
+            newPiece.id = `${size}-${color}-${i-1}`;
+            let topOffset = ((row - 1) * 190) + topMarginOffset;
+            let leftOffset = ((190 * i) - leftMarginOffset);
+            newPiece.style.top = `${topOffset}px`;
+            newPiece.style.left = `${leftOffset}px`;
+            gamePieces.push(newPiece.id);
+            gamePieceDivs.push(newPiece); 
+            docBody.appendChild(newPiece);
+        };
+        createHorizontal("large", i, color, row, 20, 170);
+        createHorizontal("medium", i, color, row, 50, 140);
+        createHorizontal("small", i, color, row, 80, 110);
         }
 }
 
 function verticalPieces(color, column) {
     for (i=2; i < 5; i++) {
-        //Create the Large Circles
-        let large = document.createElement('div')
-            large.className = "large " + color;
-            large.id = "large-" + color + "-" + (i-1);
-            large.style.top = (((i - 1)* 190) + 20) + "px";
-            large.style.left = (((column - 1) * 190) + 20) + "px";
-            gamePieces.push(large.id);
-            gamePieceDivs.push(large);
-          
-        //Create the Medium Circles
-        let medium = document.createElement('div')
-            medium.className = "medium " + color;
-            medium.id = "medium-" + color + "-" + (i-1);
-            medium.style.top = ((i - 1) * 190) + 50 + "px";
-            medium.style.left = (((column - 1) * 190) + 50) + "px";
-            gamePieces.push(medium.id);
-            gamePieceDivs.push(medium);
-
-        //Create the Small Circles
-        let small = document.createElement('div')
-            small.className = "small " + color;
-            small.id = "small-" + color + "-" + (i-1);
-            small.style.top = ((i - 1) * 190) + 80 + "px";
-            small.style.left = (((column - 1) * 190) + 80) + "px";
-            gamePieces.push(small.id);
-            gamePieceDivs.push(small);
-          
-        //Add Circles to the DOM
-            docBody.appendChild(large);
-            docBody.appendChild(medium);
-            docBody.appendChild(small);
+        // A function to create the vertical pieces
+        const createVertical = (size, i, color, column, topMarginOffset, leftMarginOffset) => {
+            let newPiece = document.createElement('div');
+            newPiece.className = `${size} ${color}`;
+            newPiece.id = `${size}-${color}-${i-1}`;
+            let topOffset = ((i - 1) * 190) + topMarginOffset;
+            let leftOffset = ((column - 1) * 190) + leftMarginOffset;
+            newPiece.style.top = `${topOffset}px`;
+            newPiece.style.left = `${leftOffset}px`;
+            gamePieces.push(newPiece.id);
+            gamePieceDivs.push(newPiece); 
+            docBody.appendChild(newPiece);
+        };
+        createVertical("large", i, color, column, 20, 20);
+        createVertical("medium", i, color, column, 50, 50);
+        createVertical("small", i, color, column, 80, 80);
         }
 }
 
