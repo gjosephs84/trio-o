@@ -25,76 +25,37 @@ function to push these objects into the large, medium, and small board pieces ar
     return boardPiece;
 }
 
-
-
 // The following generates the game board within a grid in the DOM
 // Circles within the board itself are not moveable.
 function makeBoard() {
      for (j=2; j < 5; j++) {
         for (i=2; i < 5; i++) {
-            //Create the Large Circles
-            let large = document.createElement('div')
-                large.className = "large tan"
-                large.id = `large ${j} ${i}`;
-                large.style.gridColumnStart = i;
-                large.style.gridRowStart = j;
-                large.style.marginLeft = "10px";
-                large.style.marginTop = "10px";
-            //Create the Medium Circles
-            let medium = document.createElement('div')
-                medium.className = "medium tan"
-                medium.id = `medium " ${j} ${i}`;
-                medium.style.gridColumnStart = i;
-                medium.style.gridRowStart = j;
-                medium.style.marginLeft = "40px";
-                medium.style.marginTop = "40px";
-            //Create the Small Circles
-            let small = document.createElement('div')
-                small.className = "small tan"
-                small.id = `small ${j} + ${i}`;
-                small.style.gridColumnStart = i;
-                small.style.gridRowStart = j;
-                small.style.marginLeft = "70px";
-                small.style.marginTop = "70px";
-            //Add Circles to the DOM
-                containerDiv.appendChild(large);
-                largeBoardPieces.push(boardObject(large, j, i));
+            // A function to generate the circles
+            const makeCircles = (size, j, i, offset, sizeLetter, piecesArray) => {
+                let newCircle = document.createElement('div');
+                newCircle.className = `${size} tan`;
+                newCircle.id = `${size} ${j} ${i}`;
+                newCircle.style = `grid-column-start: ${i}; grid-row-start: ${j}; margin-left: ${offset}px; margin-top: ${offset}px;`;
+                // Add the circle to the DOM
+                containerDiv.appendChild(newCircle);
+                // Add the circle to the proper BoardPieces array
+                piecesArray.push(boardObject(newCircle, j, i));
+                boardPieceDivs.push(newCircle);
                 let piece = {
                     color: "",
-                    size: "l",
+                    size: sizeLetter,
                     row: j,
                     column: i,
                     id: ""
                 };
                 placedPieces.push(piece);
-                containerDiv.appendChild(medium);
-                mediumBoardPieces.push(boardObject(medium, j, i));
-                piece = {
-                    color: "",
-                    size: "m",
-                    row: j,
-                    column: i,
-                    id: ""
-                }
-                placedPieces.push(piece);
-                containerDiv.appendChild(small);
-                smallBoardPieces.push(boardObject(small, j, i));
-                piece = {
-                    color: "",
-                    size: "s",
-                    row: j,
-                    column: i,
-                    id: ""
-                }
-                placedPieces.push(piece);
-            //Add Circles to the boardPieceDiv Array
-                boardPieceDivs.push(large);
-                boardPieceDivs.push(medium);
-                boardPieceDivs.push(small);
+            };
+            makeCircles("large", j, i, 10, "l", largeBoardPieces);
+            makeCircles("medium", j, i, 40, "m", mediumBoardPieces);
+            makeCircles("small", j, i, 70, "s", smallBoardPieces);
             }
         }
 }
-
 
 function horizontalPieces(color, row) {
     for (i=2; i < 5; i++) {
@@ -190,15 +151,11 @@ function dragElement(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     document.onmouseup = closeDragElement;
-    //document.ontouchend = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
-    //document.ontouchmove = elementDrag;
-  }
+  };
 
   function elementDrag(e) {
-    
-    
     e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
@@ -209,10 +166,7 @@ function dragElement(elmnt) {
     
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-
-    
-
-  }
+  };
 
   function closeDragElement() {
     /* stop moving when mouse button is released:*/
