@@ -227,6 +227,22 @@ function dragElement(elmnt) {
     document.ontouchmove = null;
   }
 }
+
+// A function to get piece size
+const getSize = (piece) => {
+    let theSize;
+    switch (piece.size) {
+        case 'l' : theSize = 3;
+            break;
+            case 'm' : theSize = 2;
+            break;
+            case 's' : theSize = 1;
+            break;
+            default : theSize = 0;
+    }
+    return theSize;
+};
+
 // A function to check the third piece in a winning line
 
 function checkThird(first, firstSize, second, secondSize, direction) {
@@ -234,17 +250,7 @@ function checkThird(first, firstSize, second, secondSize, direction) {
         if ((placedPieces[k] != first) && (placedPieces[k] != second)) {
             // Check to see if colors are the same
             if (placedPieces[k].color == first.color) {
-                let theSize;
-                switch (placedPieces[k].size) {
-                    case 'l' : theSize = 3;
-                    break;
-                    case 'm' : theSize = 2;
-                    break;
-                    case 's' : theSize = 1;
-                    break;
-                    default : theSize = 0;
-                }
-                const pieceThreeSize = theSize;
+                const pieceThreeSize = getSize(placedPieces[k]);
                 // Check to see if piece three is the same size or smaller than
                 // the other two pieces
                 if (((firstSize > secondSize) && (secondSize > pieceThreeSize)) 
@@ -288,6 +294,7 @@ function checkThird(first, firstSize, second, secondSize, direction) {
 // A function to check to see if there is a winner
 
 function checkWinner() {
+    
     // Check for nested
     for (n = 0; n < placedPieces.length; n = n+3) {
         if (placedPieces[n].color != '') {
@@ -308,33 +315,13 @@ function checkWinner() {
     for (i = 0; i < placedPieces.length; i++) {
         if (placedPieces[i].color != '') { // initiate the first piece
             const pieceOne = placedPieces[i];
-            let theSize;
-            let firstSize = placedPieces[i].size;
-            switch (firstSize) {
-                case 'l' : theSize = 3;
-                break;
-                case 'm' : theSize = 2;
-                break;
-                case 's' : theSize = 1;
-                break;
-                default : theSize = 0;
-            }
-            const pieceOneSize = theSize;
+            const pieceOneSize = getSize(pieceOne);
+            console.log(pieceOneSize);
             // Find a second piece
             for (j = 0; j < placedPieces.length; j++) {
                 // Check to see if colors are the same
                 if ((placedPieces[j] != pieceOne) && placedPieces[j].color == pieceOne.color) {
-                    let theSize;
-                    switch (placedPieces[j].size) {
-                        case 'l' : theSize = 3;
-                        break;
-                        case 'm' : theSize = 2;
-                        break;
-                        case 's' : theSize = 1;
-                        break;
-                        default : theSize = 0;
-                    };
-                    const pieceTwoSize = theSize;
+                    const pieceTwoSize = getSize(placedPieces[j]);
                     /* Check to see if placedPieces[j] is the same size or smaller */
                     if (pieceOneSize >= pieceTwoSize) {
                         // Check to see if placedPieces[j] is adjacent
