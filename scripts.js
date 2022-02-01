@@ -166,6 +166,7 @@ function dragElement(elmnt) {
     
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.zIndex="100";
   };
 
   function closeDragElement() {
@@ -173,6 +174,7 @@ function dragElement(elmnt) {
     let circleSize = elmnt.className[0]; //Figure out size of circle moved
     let circleX = elmnt.style.left.slice(0, -2); //Get its X coordinate
     let circleY = elmnt.style.top.slice(0, -2); //Get its Y coordinate
+    elmnt.style.zIndex="0";
     
     // Compare circle coordinates with gameboard circles and snap in place
     
